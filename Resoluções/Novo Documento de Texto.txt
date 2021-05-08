@@ -1,0 +1,46 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int memo[1001][1001];
+bool isPal(string s, int i, int j){
+
+    if (i > j){
+        return 1;
+    }
+    if (memo[i][j] != -1){
+        return memo[i][j];
+    }
+
+    if (s[i] != s[j]){
+        return memo[i][j] = 0;
+    }
+
+    return memo[i][j] = isPal(s, i + 1, j - 1);
+}
+
+int countSubstrings(string s){
+    memset(memo, -1, sizeof(memo));
+    int count = 0;
+
+    for (int i = 0; i <  s.length(); i++){
+        for (int j = i + 1; j <  s.length(); j++){
+            if (isPal(s, i, j))
+                count++;
+        }
+    }
+    return count;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    string word; cin>>word;
+    int cases; cin>>cases;
+    while (cases--){
+        int l, r; cin>>l>>r;
+        string search =word.substr(l-1,(r-l)+1);
+        cout<<countSubstrings(search)+search.length()<<endl;
+    }
+    return 0;
+}
